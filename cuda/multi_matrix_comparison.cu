@@ -4,7 +4,7 @@
 #include "TimeWatch.hpp"
 
 #define DEBUG 1
-#define MAT_SIZE 2000
+#define MAT_SIZE 1000
 #define BLOCK_SIZE 16
 #define NUM_THREADS 8
 
@@ -49,8 +49,8 @@ int main(void){
 	time_watch.startCount();	
 	pthread_t tid[NUM_THREADS];
 	for (int i = 0; i < NUM_THREADS; i++){
-		int startLine = MAT_SIZE / NUM_THREADS * i;
-		pthread_create(&tid[i], NULL, thread, (void *)startLine);
+		long long startLine = MAT_SIZE / NUM_THREADS * i;
+		pthread_create(&tid[i], NULL, thread, (void*)startLine);
 	}
 	
 	for (int i = 0; i < NUM_THREADS; i++)
@@ -187,7 +187,7 @@ void printMatrix(){
 }
 
 void *thread(void *vargp){
-	int startLine = ((int)vargp);
+	int startLine = (int)((long long)vargp);
 	for (int i = startLine; i < startLine + MAT_SIZE / NUM_THREADS; i++)
 		for (int j = 0; j < MAT_SIZE; j++)
 			for (int k = 0; k < MAT_SIZE; k++)
